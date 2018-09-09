@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "489222424083",
+    "firebase_url": "https://evidencereporter-5a4ef.firebaseio.com",
+    "project_id": "evidencereporter-5a4ef",
+    "storage_bucket": "evidencereporter-5a4ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489222424083:android:cd61c29d3fdac7f8",
+        "android_client_info": {
+          "package_name": "com.anatech.evidencereporter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489222424083-m6e7illdo6p6irpvnaggtosh1qv8daj3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anatech.evidencereporter",
+            "certificate_hash": "09bbff1e25c9ad20d117b308d59a19021dbc681f"
+          }
+        },
+        {
+          "client_id": "489222424083-i73veksimf9949g31a37ds9n85uq8hh4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUlf1xJ-_P2P-0LTVqb_GcdCp5ohHxkCo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489222424083-i73veksimf9949g31a37ds9n85uq8hh4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
