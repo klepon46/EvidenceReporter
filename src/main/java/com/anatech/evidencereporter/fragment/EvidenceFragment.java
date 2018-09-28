@@ -15,6 +15,7 @@ import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +25,21 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.anatech.evidencereporter.BuildConfig;
 import com.anatech.evidencereporter.Model.ReportItem;
 import com.anatech.evidencereporter.Model.ReportLab;
 import com.anatech.evidencereporter.R;
 import com.anatech.evidencereporter.utils.PictureUtils;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.net.URI;
 import java.util.Date;
 import java.util.UUID;
 
@@ -39,6 +47,8 @@ import java.util.UUID;
 public class EvidenceFragment extends Fragment {
     private static final String ARG_EVIDENCE_ID = "evidence_id";
     private static final String DIALOG_DATE = "DialogDate";
+    private static final String URL_STORAGE_REFERENCE = "gs://evidencereporter-5a4ef.appspot.com";
+    public static final String FOLDER_STORAGE_IMG = "images";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO = 2;
@@ -53,6 +63,9 @@ public class EvidenceFragment extends Fragment {
     private ImageView mPhotoView;
     private File mPhotoFile;
 
+    private FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    private StorageReference storageReference;
+
     public EvidenceFragment() {
         // Required empty public constructor
     }
@@ -64,6 +77,8 @@ public class EvidenceFragment extends Fragment {
         UUID uuid = (UUID) getArguments().getSerializable(ARG_EVIDENCE_ID);
         mReportItem = ReportLab.getInstance(getActivity()).getReport(uuid);
         mPhotoFile = ReportLab.getInstance(getActivity()).getPhotoFile(mReportItem);
+        storageReference = firebaseStorage.getReferenceFromUrl(URL_STORAGE_REFERENCE)
+                .child(FOLDER_STORAGE_IMG);
     }
 
     @Override
@@ -126,12 +141,33 @@ public class EvidenceFragment extends Fragment {
         mReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_TEXT, getEvidenceReport());
-                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.evidence_report_suspect));
-                i = Intent.createChooser(i, getString(R.string.send_report));
-                startActivity(i);
+//                Intent i = new Intent(Intent.ACTION_SEND);
+//                i.setType("text/plain");
+//                i.putExtra(Intent.EXTRA_TEXT, getEvidenceReport());
+//                i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.evidence_report_suspect));
+//                i = Intent.createChooser(i, getString(R.string.send_report));
+//                startActivity(i);
+
+                File compr = PictureUtils.saveBitmapToFile(mPhotoFile);
+
+                Uri uri = FileProvider.getUriForFile(getActivity(),
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        compr);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(),
+                        getActivity());
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                byte[] data = baos.toByteArray();
+
+                UploadTask task = storageReference.child(mPhotoFile.getName()).putFile(uri);
+                task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getActivity(), "Mantap", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
 
@@ -262,6 +298,8 @@ public class EvidenceFragment extends Fragment {
             Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(),
                     getActivity());
             mPhotoView.setImageBitmap(bitmap);
+
+            Log.d("KUDAX", "updatePhotoView: " + bitmap.getByteCount()/1024);
         }
     }
 
