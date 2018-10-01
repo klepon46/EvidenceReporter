@@ -32,6 +32,11 @@ import com.anatech.evidencereporter.Model.ReportItem;
 import com.anatech.evidencereporter.Model.ReportLab;
 import com.anatech.evidencereporter.R;
 import com.anatech.evidencereporter.utils.PictureUtils;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -59,6 +64,7 @@ public class EvidenceFragment extends Fragment {
     private CheckBox mSolvedCheckBox;
     private Button mReportButton;
     private Button mSuspectButton;
+    private Button mPickPlaceButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private File mPhotoFile;
@@ -157,7 +163,7 @@ public class EvidenceFragment extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(),
                         getActivity());
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] data = baos.toByteArray();
 
                 UploadTask task = storageReference.child(mPhotoFile.getName()).putFile(uri);
@@ -190,6 +196,22 @@ public class EvidenceFragment extends Fragment {
                 packageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
         }
+
+        mPickPlaceButton = v.findViewById(R.id.btn_pick_place);
+        mPickPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(getActivity()), 3);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         mPhotoButton = v.findViewById(R.id.evidence_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -250,6 +272,11 @@ public class EvidenceFragment extends Fragment {
 
         } else if (requestCode == REQUEST_PHOTO) {
             updatePhotoView();
+        }else if(requestCode == 3) {
+            Place place = PlacePicker.getPlace(getActivity(), data);
+            LatLng latLng = place.getLatLng();
+            String latLang = latLng.latitude + "," +latLng.longitude;
+            Toast.makeText(getActivity(), latLang,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -299,7 +326,7 @@ public class EvidenceFragment extends Fragment {
                     getActivity());
             mPhotoView.setImageBitmap(bitmap);
 
-            Log.d("KUDAX", "updatePhotoView: " + bitmap.getByteCount()/1024);
+            Log.d("KUDAX", "updatePhotoView: " + bitmap.getByteCount() / 1024);
         }
     }
 

@@ -22,5 +22,6 @@
     <string name="evidence_report_suspect">the suspect is %s.</string>
     <string name="evidence_report_subject">Evidence Report</string>
     <string name="send_report">Send evidence report via</string>
+    <string name="btn_pick_place">Pick place</string>
 
 </resources>
