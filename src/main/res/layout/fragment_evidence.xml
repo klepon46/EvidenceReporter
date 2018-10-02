@@ -20,12 +20,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
 
-    <CheckBox
-        android:id="@+id/report_solved"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/report_solved_label" />
-
     <Button
         android:id="@+id/btn_pick_place"
         android:layout_width="match_parent"
@@ -33,14 +27,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/btn_pick_place"/>
-
-    <Button
-        android:id="@+id/btn_evidence_suspect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:text="@string/evidence_suspect_text" />
 
     <Button
         android:id="@+id/btn_evidence_send_report"
