@@ -13,12 +13,26 @@
         android:layout_height="wrap_content"
         android:text="@string/report_details_label" />
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/evidence_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginLeft="16dp"
+            android:hint="@string/edittext_description_hint" />
+    </android.support.design.widget.TextInputLayout>
+
     <Button
         android:id="@+id/report_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginRight="16dp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_pick_place"
@@ -26,13 +40,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="@string/btn_pick_place"/>
+        android:text="@string/btn_pick_place" />
 
-    <Button
-        android:id="@+id/btn_evidence_send_report"
+    <ImageView
+        android:id="@+id/evidence_location_imageview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:text="@string/evidence_send_report_text" />
+        android:layout_marginRight="16dp" />
 </LinearLayout>

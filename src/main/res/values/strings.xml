@@ -24,5 +24,6 @@
     <string name="send_report">Send evidence report via</string>
     <string name="btn_pick_place">Pick place</string>
     <string name="menu_text_send_report">Send Report</string>
+    <string name="edittext_description_hint">Description</string>
 
 </resources>

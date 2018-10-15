@@ -25,8 +25,11 @@ public class EvidenceBaseHelper extends SQLiteOpenHelper {
                 "id integer primary key autoincrement, " +
                 EvidenceTable.Cols.UUID + ", " +
                 EvidenceTable.Cols.TITLE + ", " +
+                EvidenceTable.Cols.DESCRIPTION + ", " +
                 EvidenceTable.Cols.DATE + ", " +
                 EvidenceTable.Cols.SOLVED + ", " +
+                EvidenceTable.Cols.LATITUDE + ", " +
+                EvidenceTable.Cols.LONGITUDE + ", " +
                 EvidenceTable.Cols.SUSPECT + ")");
     }
 

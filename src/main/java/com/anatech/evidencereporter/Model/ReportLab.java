@@ -104,7 +104,10 @@ public class ReportLab {
         ContentValues values = new ContentValues();
         values.put(EvidenceTable.Cols.UUID, reportItem.getId().toString());
         values.put(EvidenceTable.Cols.TITLE, reportItem.getTitle());
+        values.put(EvidenceTable.Cols.DESCRIPTION, reportItem.getDescription());
         values.put(EvidenceTable.Cols.DATE, reportItem.getDate().getTime());
+        values.put(EvidenceTable.Cols.LONGITUDE, reportItem.getLongitude());
+        values.put(EvidenceTable.Cols.LATITUDE, reportItem.getLatitude());
         values.put(EvidenceTable.Cols.SOLVED, reportItem.isSolved() ? 1 : 0);
 
         return values;
