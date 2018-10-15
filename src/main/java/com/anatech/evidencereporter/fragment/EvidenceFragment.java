@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -288,6 +289,12 @@ public class EvidenceFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setStaticImageMap() {
+
+        if (mReportItem.getLongitude() == 0 && mReportItem.getLatitude() == 0) {
+            mLocationView.setVisibility(View.GONE);
+            return;
+        }
+
         double longitude = mReportItem.getLongitude();
         double latitude = mReportItem.getLatitude();
 
@@ -310,8 +317,14 @@ public class EvidenceFragment extends Fragment implements View.OnClickListener {
                 .staticMarkerAnnotations(markers)
                 .build();
 
+        CircularProgressDrawable progress = new CircularProgressDrawable(getActivity());
+        progress.setStrokeWidth(8f);
+        progress.setCenterRadius(24f);
+        progress.start();
+
         Glide.with(getActivity())
                 .load(staticMap.url().toString())
+                .placeholder(progress)
                 .fitCenter().into(mLocationView);
     }
 }
